@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎶 Groove — Spotify-Inspired Music Player  
 
-## Getting Started
+Premium, production-ready **Next.js application** for streaming music.  
+A sleek **glassmorphism UI**, real-time **Supabase backend**, and **global player context** with playlists, liked songs, and smooth animations.  
 
-First, run the development server:
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](#)  
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](#)  
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?logo=tailwind-css&logoColor=white)](#)  
+[![Supabase](https://img.shields.io/badge/Supabase-Postgres-3FCF8E?logo=supabase&logoColor=white)](#)  
+[![TanStack Query](https://img.shields.io/badge/TanStack_Query-v5-FF4154?logo=react-query&logoColor=white)](#)  
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Live Demo  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+👉 [**Vercel Deployment**](https://groove-music-player-next-js.vercel.app/)  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📸 Screenshots  
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<img alt="Groove Home" src="public/home.png" width="800"> 
+<img alt="Groove Player" src="public/playlist.png" width="800"> |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+## 🌟 Features  
+
+- 🎧 **Global Player Context** — real-time playback, queue, seek, next/prev, volume  
+- ❤️ **Liked Songs** — per-user favorites with optimistic updates  
+- 🎵 **Playlists** — create, edit, add/remove tracks (per user)  
+- 🔎 **Library** — search, filter by artist/album, sort  
+- 🔐 **Supabase Auth** — email/password, providers ready  
+- ⚡ **Data Fetching** — TanStack Query (v5) for caching and mutations  
+- 🌓 **UI/UX** — Tailwind glassmorphism, smooth transitions, a11y support  
+
+---
+
+## 🧰 Tech Stack  
+
+- **Frontend:** Next.js 14, React, TypeScript, TailwindCSS  
+- **Backend:** Supabase (Postgres, Auth, Storage, RLS)  
+- **Data:** TanStack Query (v5)  
+- **Player:** HTMLAudioElement + custom React Context  
+- **UI/UX Enhancers:** react-icons, lucide-react, shadcn/ui (optional)  
+
