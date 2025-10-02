@@ -82,7 +82,7 @@ export default function AllSongs() {
 
   const {
     data: songs,
-    isPending,         // v5-safe
+    isPending,
     isError,
     error,
   } = useQuery({
@@ -288,6 +288,14 @@ export default function AllSongs() {
     } catch {}
   };
 
+  const handleCardKeyDown =
+    (song: Song) => (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        playSong(song);
+      }
+    };
+
   const openPicker = (song: Song) => {
     if (!authUser) {
       toast("Please log in to use playlists", { icon: "🔒" });
@@ -343,7 +351,7 @@ export default function AllSongs() {
     const rec = s as unknown as Record<string, unknown>;
     const v = rec["video_url"];
     return typeof v === "string" && v.length > 0 ? v : null;
-    };
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b mb-25 from-neutral-900 to-black text-white">
@@ -702,18 +710,36 @@ export default function AllSongs() {
                   return (
                     <div
                       key={`recent-${song.id}`}
-                      className="snap-start group relative w-[72vw] sm:w-[190px] max-w-[230px] bg-neutral-900/70 border border-neutral-800 rounded-xl p-3 text-left hover:bg-neutral-900 transition"
+                      onClick={() => playSong(song)}
+                      onKeyDown={handleCardKeyDown(song)}
+                      role="button"
+                      tabIndex={0}
+                      className="snap-start group relative w-[72vw] sm:w-[190px] max-w-[230px]
+                                 bg-neutral-900/70 border border-neutral-800 rounded-xl p-3 text-left
+                                 hover:bg-neutral-900 transition cursor-pointer outline-none
+                                 focus-visible:ring-2 focus-visible:ring-neutral-500"
+                      aria-label={`Play ${song.title}`}
                     >
+                      {/* Floating Play Button — visible only ≥sm */}
                       <button
-                        onClick={() => playSong(song)}
-                        className="bg-green-600/90 w-11 h-11 sm:w-12 sm:h-12 rounded-full grid place-items-center absolute bottom-3 right-3 sm:bottom-20 sm:right-4 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition duration-300 text-white text-xl sm:text-2xl shadow-xl z-10"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          playSong(song);
+                        }}
+                        className="hidden sm:grid bg-green-600/90 w-11 h-11 sm:w-12 sm:h-12 rounded-full place-items-center
+                                   absolute bottom-3 right-3 sm:bottom-20 sm:right-4 opacity-0 group-hover:opacity-100
+                                   translate-y-2 group-hover:translate-y-0 transition duration-300 text-white text-xl sm:text-2xl shadow-xl z-10"
                         aria-label={`Play ${song.title}`}
+                        title="Play"
                       >
                         <IoMdPlay />
                       </button>
 
                       <button
-                        onClick={() => openPicker(song)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openPicker(song);
+                        }}
                         className="absolute right-3 top-3 h-8 px-3 rounded-full text-xs bg-white/10 border border-white/10 hover:bg-white/15 backdrop-blur z-10"
                         aria-label="Add to playlist"
                         title="Add to playlist"
@@ -722,11 +748,12 @@ export default function AllSongs() {
                       </button>
 
                       <button
-                        onClick={() =>
+                        onClick={(e) => {
+                          e.stopPropagation();
                           authUser
                             ? toggleLike.mutate(song)
-                            : toast("Please log in to like songs", { icon: "🔒" })
-                        }
+                            : toast("Please log in to like songs", { icon: "🔒" });
+                        }}
                         className="absolute bottom-16 right-3 sm:bottom-auto sm:right-2 sm:top-48 h-8 w-8 rounded-full grid place-items-center bg-white/10 border border-white/10 hover:bg-white/15 backdrop-blur z-10"
                         aria-label={isLiked ? "Unlike" : "Like"}
                         title={isLiked ? "Unlike" : "Like"}
@@ -735,7 +762,7 @@ export default function AllSongs() {
                         {isLiked ? <IoMdHeart className="text-green-500" /> : <IoMdHeartEmpty />}
                       </button>
 
-                      <div className="relative aspect-square w-full overflow-hidden rounded-md">
+                      <div className="relative aspect-square w-full overflow-hidden rounded-md pointer-events-none">
                         <Image
                           src={song.cover_image_url}
                           alt={`${song.title} cover`}
@@ -766,19 +793,35 @@ export default function AllSongs() {
                   return (
                     <div
                       key={song.id}
-                      className="group relative bg-neutral-900/70 border border-neutral-800 p-3 rounded-xl hover:bg-neutral-900 transition flex flex-col text-left h-full"
+                      onClick={() => playSong(song)}
+                      onKeyDown={handleCardKeyDown(song)}
+                      role="button"
+                      tabIndex={0}
+                      className="group relative bg-neutral-900/70 border border-neutral-800 p-3 rounded-xl hover:bg-neutral-900 transition
+                                 flex flex-col text-left h-full cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-neutral-500"
+                      aria-label={`Play ${song.title}`}
+                      title={`Play ${song.title}`}
                     >
+                      {/* Floating Play Button — visible only ≥sm */}
                       <button
-                        onClick={() => playSong(song)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          playSong(song);
+                        }}
                         title="Play"
                         aria-label="Play"
-                        className="bg-green-600/90 w-12 h-12 rounded-full grid place-items-center absolute bottom-20 right-4 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition duration-300 text-white text-2xl shadow-xl"
+                        className="hidden sm:grid bg-green-600/90 w-12 h-12 rounded-full place-items-center
+                                   absolute bottom-20 right-4 opacity-0 group-hover:opacity-100 translate-y-2
+                                   group-hover:translate-y-0 transition duration-300 text-white text-2xl shadow-xl"
                       >
                         <IoMdPlay />
                       </button>
 
                       <button
-                        onClick={() => openPicker(song)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openPicker(song);
+                        }}
                         className="absolute right-3 top-3 h-8 px-3 rounded-full text-xs bg-white/10 border border-white/10 hover:bg-white/15 backdrop-blur"
                         aria-label="Add to playlist"
                         title="Add to playlist"
@@ -787,11 +830,12 @@ export default function AllSongs() {
                       </button>
 
                       <button
-                        onClick={() =>
+                        onClick={(e) => {
+                          e.stopPropagation();
                           authUser
                             ? toggleLike.mutate(song)
-                            : toast("Please log in to like songs", { icon: "🔒" })
-                        }
+                            : toast("Please log in to like songs", { icon: "🔒" });
+                        }}
                         className="absolute left-3 top-3 h-8 w-8 rounded-full grid place-items-center bg-white/10 border border-white/10 hover:bg-white/15 backdrop-blur"
                         aria-label={isLiked ? "Unlike" : "Like"}
                         title={isLiked ? "Unlike" : "Like"}
@@ -800,7 +844,7 @@ export default function AllSongs() {
                         {isLiked ? <IoMdHeart className="text-green-500" /> : <IoMdHeartEmpty />}
                       </button>
 
-                      <div className="aspect-square w-full overflow-hidden rounded-md">
+                      <div className="aspect-square w-full overflow-hidden rounded-md pointer-events-none">
                         <Image
                           src={song.cover_image_url}
                           alt={`${song.title} cover`}
@@ -895,8 +939,6 @@ export default function AllSongs() {
                   </h4>
                   <p className="text-sm text-neutral-400">{previewSong.artist}</p>
                 </div>
-
-                
               </div>
             ) : (
               <p className="text-neutral-500 text-sm">Start playing to see the preview.</p>
